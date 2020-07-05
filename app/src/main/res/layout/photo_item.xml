@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        
+        <import type="android.view.View" />
+        <variable
+            name="viewState"
+            type="com.kadirdogan97.flickrapp.ui.recentphotos.RecentItemViewState" />
     </data>
 
 
@@ -22,6 +25,7 @@
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_card_photo"
+                app:imageUrl="@{viewState.imageUrl}"
                 android:scaleType="centerCrop" />
 
             <RelativeLayout
@@ -34,6 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:text="@{viewState.title}"
                     android:layout_marginLeft="@dimen/margin_16dp"
                     android:singleLine="true"
                     android:textColor="@color/colorWhite900"

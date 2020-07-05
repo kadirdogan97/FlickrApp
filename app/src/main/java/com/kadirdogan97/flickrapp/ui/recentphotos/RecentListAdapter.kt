@@ -48,18 +48,10 @@ class RecentListAdapter : RecyclerView.Adapter<RecentListAdapter.RecentListItemV
 
         fun bind(photoItem: PhotoItem) {
             with(binding) {
-//                viewState = RecentPhotoItemViewState(photoItem)
+                viewState = RecentItemViewState(photoItem)
                 cardView.setOnClickListener {
                     listener.onItemClick(it, Utils.convertPhotoItemToPhotoUrl(photoItem))
                 }
-                Glide.with(ivProfile.context)
-                    .load("${Utils.convertPhotoItemToProfileImageUrl(photoItem)}")
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(ivProfile)
-                Glide.with(photo.context)
-                    .load("${Utils.convertPhotoItemToPhotoUrl(photoItem)}")
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(photo)
                 title.text = photoItem.title
                 executePendingBindings()
             }

@@ -10,5 +10,4 @@ import androidx.navigation.NavController
 
 class VMMain: ViewModel(){
     var currentNavController: LiveData<NavController>? = null
-
 }

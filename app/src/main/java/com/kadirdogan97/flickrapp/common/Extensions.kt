@@ -26,13 +26,6 @@ fun <T : ViewDataBinding> ViewGroup?.inflate(@LayoutRes layoutId: Int, attachToP
     )
 }
 
-fun <T> Observable<T>.remote(): Observable<Resource<T>> =
-    map<Resource<T>> { Resource.Success(it) }
-        .onErrorReturn { throwable ->
-            Resource.Error(throwable)
-        }
-        .subscribeOn(Schedulers.io())
-
 fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
     this.observe(owner, Observer {
         it?.let(observer)
@@ -49,11 +42,6 @@ fun <T> Observable<Resource<T>>.doOnSuccess(
     }
 
 }
-
-operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
-    add(disposable)
-}
-
 fun Any?.runIfNull(block: () -> Unit) {
     if (this == null) block()
 }

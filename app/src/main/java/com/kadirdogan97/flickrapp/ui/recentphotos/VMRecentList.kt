@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kadirdogan97.flickrapp.common.ReactiveViewModel
-import com.kadirdogan97.flickrapp.common.Resource
-import com.kadirdogan97.flickrapp.common.Status
-import com.kadirdogan97.flickrapp.common.doOnSuccess
+import androidx.recyclerview.widget.GridLayoutManager
+import com.kadirdogan97.flickrapp.common.*
 import com.kadirdogan97.flickrapp.model.PhotoItem
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -16,13 +14,24 @@ import io.reactivex.android.schedulers.AndroidSchedulers
  */
 class VMRecentList(private val recentListUseCase: RecentListUseCase): ReactiveViewModel(){
 
-    private val contents = MutableLiveData<List<PhotoItem>>()
+    private val contents = SingleLiveEvent<List<PhotoItem>>()
     val contents_: LiveData<List<PhotoItem>> = contents
 
-//    private val status = MutableLiveData<RecentPhotoStatusViewState>()
-//    val status_: LiveData<RecentPhotoStatusViewState> = status
+    private val status = MutableLiveData<RecentStatusViewState>()
+    val status_: LiveData<RecentStatusViewState> = status
+
+    private val currentPage = MutableLiveData<Int>().apply { value = 1}
+    val currentPage_: LiveData<Int> = currentPage
+
+
+    val scrollListener = object: EndlessRecyclerOnScrollListener(){
+        override fun onLoadMore() {
+            fetchRecentPhotos(currentPage.value?.plus(1)!!)
+        }
+    }
 
     fun fetchRecentPhotos(page: Int) {
+        currentPage.value = page
         recentListUseCase
             .fetchRecentPhotos(page)
             .observeOn(AndroidSchedulers.mainThread())
@@ -33,7 +42,7 @@ class VMRecentList(private val recentListUseCase: RecentListUseCase): ReactiveVi
             }
             .subscribe({ resource ->
                 Log.d("VMRecentList",resource.toString())
-//                onRecentPhotoStatusResultReady(resource)
+                onRecentPhotoStatusResultReady(resource)
             }, {})
             .also { disposable.add(it) }
     }
@@ -42,14 +51,13 @@ class VMRecentList(private val recentListUseCase: RecentListUseCase): ReactiveVi
         contents.value = results
     }
 
-//    private fun onRecentPhotoStatusResultReady(resource: Resource<List<PhotoItem>>) {
-//
-//        val viewState = when (resource) {
-//            is Resource.Success -> Status.Content
-//            is Resource.Error -> Status.Error(resource.exception)
-//            Resource.Loading -> Status.Loading
-//        }
-//        status.value = viewState
-//    }
+    private fun onRecentPhotoStatusResultReady(resource: Resource<List<PhotoItem>>) {
+        val viewState = when (resource) {
+            is Resource.Success -> RecentStatusViewState(Status.Content)
+            is Resource.Error -> RecentStatusViewState(Status.Error(resource.exception))
+            Resource.Loading -> RecentStatusViewState(Status.Loading)
+        }
+        status.value = viewState
+    }
 
 }

@@ -6,5 +6,13 @@
     <fragment
         android:id="@+id/recentListFragment"
         android:name="com.kadirdogan97.flickrapp.ui.recentphotos.RecentListFragment"
-        android:label="RecentListFragment" />
+        android:label="RecentListFragment" >
+        <action
+            android:id="@+id/action_recentListFragment_to_recentDetailFragment"
+            app:destination="@id/recentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recentDetailFragment"
+        android:name="com.kadirdogan97.flickrapp.ui.detail.RecentDetailFragment"
+        android:label="RecentDetailFragment" />
 </navigation>

@@ -1,9 +1,12 @@
 package com.kadirdogan97.flickrapp.common
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.kadirdogan97.flickrapp.R
 
 object ImageBindingAdapter {
 
@@ -11,7 +14,8 @@ object ImageBindingAdapter {
     @BindingAdapter("imageUrl")
     fun setUrl(imageView: ImageView, imageUrl: String?) {
         Glide.with(imageView.context)
-            .load("https://image.tmdb.org/t/p/w500/$imageUrl")
+            .load("$imageUrl")
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .into(imageView)
     }
 
