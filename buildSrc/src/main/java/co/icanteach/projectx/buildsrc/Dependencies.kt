@@ -19,4 +19,12 @@ object Dependencies {
     val material = "com.google.android.material:material:${Versions.materialVersion}"
     val koin =  "org.koin:koin-android:${Versions.koinVersion}"
     val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koinVersion}"
+    val navigationRuntime =
+        "androidx.navigation:navigation-runtime-ktx:${Versions.navigationComponentVersion}"
+    val navigationFragment =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationComponentVersion}"
+    val navigationUi =
+        "androidx.navigation:navigation-ui-ktx:${Versions.navigationComponentVersion}"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+
 }

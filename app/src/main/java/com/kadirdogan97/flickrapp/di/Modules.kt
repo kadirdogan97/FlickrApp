@@ -2,7 +2,9 @@ package com.kadirdogan97.flickrapp.di
 
 import android.content.Context
 import com.kadirdogan97.flickrapp.data.FlickrRepository
+import com.kadirdogan97.flickrapp.data.remote.FlickrApiRestInterface
 import com.kadirdogan97.flickrapp.data.remote.FlickrRemoteDataSource
+import com.kadirdogan97.flickrapp.ui.VMMain
 import com.kadirdogan97.flickrapp.ui.recentphotos.RecentListMapper
 import com.kadirdogan97.flickrapp.ui.recentphotos.RecentListUseCase
 import com.kadirdogan97.flickrapp.ui.recentphotos.VMRecentList
@@ -14,6 +16,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -39,9 +42,13 @@ val networkModules = module{
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+    fun provideRestInterface(retrofit: Retrofit): FlickrApiRestInterface {
+        return retrofit.create()
+    }
 
     single {provideOkHttpClient()}
     single { provideRetrofit(okHttpClient = get()) }
+    single { provideRestInterface(retrofit = get()) }
 }
 
 val dataSourceModules = module {
@@ -53,7 +60,7 @@ val repositoryModules = module{
     }
 }
 val useCaseModules = module{
-    single{
+    factory{
         RecentListMapper()
     }
     single{
@@ -68,5 +75,8 @@ val viewModelModules = module {
         VMRecentList(
             recentListUseCase = get()
         )
+    }
+    viewModel {
+        VMMain()
     }
 }

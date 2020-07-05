@@ -17,4 +17,8 @@ object Versions {
     val materialVersion = "1.2.0-alpha01"
     val gradleVersionPluginVersion = "0.27.0"
     val koinVersion = "2.1.5"
+    val navigationComponentVersion = "2.3.0"
+    val constraintLayout = "1.1.3"
+
+
 }
