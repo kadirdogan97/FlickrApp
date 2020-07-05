@@ -1,21 +1,24 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: Plugins.androidApplication
+apply plugin: Plugins.kotlinAndroid
+apply plugin: Plugins.kotlinKapt
+apply plugin: Plugins.kotlinAndroidExtensions
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion Configs.compileSdkVersion
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.kadirdogan97.flickrapp"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId Configs.applicationId
+        minSdkVersion Configs.minSdkVersion
+        targetSdkVersion Configs.targetSdkVersion
+        versionCode Configs.versionCode
+        versionName Configs.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Configs.testInstrumentationRunner
     }
-
+    dataBinding {
+        enabled = true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -25,13 +28,37 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation Dependencies.kotlin
+    implementation Dependencies.appcompat
+    implementation Dependencies.material
 
+    //Koin
+    implementation Dependencies.koin
+    implementation Dependencies.koinViewModel
+
+    // Retrofit & Gson.
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitGsonConverter
+    implementation Dependencies.retrofitRxJavaAdapter
+    implementation Dependencies.okhttp
+
+    //Support
+    implementation Dependencies.recyclerView
+
+    //Rxjava
+    implementation Dependencies.rxAndroid
+    implementation Dependencies.rxJava
+
+    //Glide
+    implementation Dependencies.glide
+    kapt Dependencies.glideCompiler
+
+
+    //Testing
+    androidTestImplementation Dependencies.androidxTestRunner
+    androidTestImplementation Dependencies.espressoCore
+    testImplementation Dependencies.truthExt
+    testImplementation Dependencies.mockK
+    testImplementation Dependencies.coreTesting
+    testImplementation Dependencies.junit
 }
