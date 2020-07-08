@@ -20,18 +20,7 @@ class VMRecentList(private val recentListUseCase: RecentListUseCase): ReactiveVi
     private val status = MutableLiveData<RecentStatusViewState>()
     val status_: LiveData<RecentStatusViewState> = status
 
-    private val currentPage = MutableLiveData<Int>().apply { value = 1}
-    val currentPage_: LiveData<Int> = currentPage
-
-
-    val scrollListener = object: EndlessRecyclerOnScrollListener(){
-        override fun onLoadMore() {
-            fetchRecentPhotos(currentPage.value?.plus(1)!!)
-        }
-    }
-
     fun fetchRecentPhotos(page: Int) {
-        currentPage.value = page
         recentListUseCase
             .fetchRecentPhotos(page)
             .observeOn(AndroidSchedulers.mainThread())

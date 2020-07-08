@@ -10,10 +10,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kadirdogan97.flickrapp.R
-import com.kadirdogan97.flickrapp.common.EndlessScrollListener
-import com.kadirdogan97.flickrapp.common.Status
-import com.kadirdogan97.flickrapp.common.observeNonNull
-import com.kadirdogan97.flickrapp.common.runIfNull
+import com.kadirdogan97.flickrapp.common.*
 import com.kadirdogan97.flickrapp.databinding.FragmentRecentListBinding
 import com.kadirdogan97.flickrapp.model.PhotoItem
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -28,6 +25,13 @@ class RecentListFragment: Fragment(){
     private lateinit var _binding: FragmentRecentListBinding
     private val binding get() = _binding
 
+    private var currentPage = 1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fetchRecentPhotos(1)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,9 +39,6 @@ class RecentListFragment: Fragment(){
     ): View? {
         _binding = FragmentRecentListBinding.inflate(inflater, container, false)
         observeAll()
-        viewModel.contents_.value.runIfNull {
-            fetchRecentPhotos(1)
-        }
         initPopularTVShowsRecyclerView()
         return binding.root
     }
@@ -67,10 +68,15 @@ class RecentListFragment: Fragment(){
                 }
             }
             layoutManager = gridLayoutManager
-            addOnScrollListener(viewModel.scrollListener)
+            addOnScrollListener(object: EndlessRecyclerOnScrollListener(){
+                override fun onLoadMore() {
+                    fetchRecentPhotos(currentPage)
+                }
+            })
         }
     }
     private fun fetchRecentPhotos(page: Int) {
+        currentPage++
         viewModel.fetchRecentPhotos(page)
     }
 

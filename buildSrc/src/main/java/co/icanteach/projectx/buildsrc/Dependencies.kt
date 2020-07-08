@@ -26,5 +26,7 @@ object Dependencies {
     val navigationUi =
         "androidx.navigation:navigation-ui-ktx:${Versions.navigationComponentVersion}"
     val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
+
 
 }

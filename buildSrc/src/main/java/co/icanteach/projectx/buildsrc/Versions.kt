@@ -19,6 +19,8 @@ object Versions {
     val koinVersion = "2.1.5"
     val navigationComponentVersion = "2.3.0"
     val constraintLayout = "1.1.3"
+    val lottie = "3.4.0"
+
 
 
 }

@@ -1,5 +1,5 @@
 object Configs {
-    val applicationId = "co.icanteach.projectx"
+    val applicationId = "com.kadirdogan97.flickrapp"
     val compileSdkVersion = 29
     val minSdkVersion = 21
     val targetSdkVersion = 29

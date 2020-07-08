@@ -60,6 +60,9 @@ dependencies {
     implementation Dependencies.glide
     kapt Dependencies.glideCompiler
 
+    //lootie
+    implementation Dependencies.lottie
+
 
     //Testing
     androidTestImplementation Dependencies.androidxTestRunner
